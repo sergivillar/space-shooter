@@ -24,6 +24,7 @@ public class DestroyByContact : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        Debug.Log(other.name);
         if (other.tag == "Boundary")
             return;
 		
@@ -33,7 +34,7 @@ public class DestroyByContact : MonoBehaviour
             gameController.GameOver();
         }
 
-        gameController.AddScore(scoreValue);
+        // gameController.AddScore(scoreValue);
         Instantiate(explosion, transform.position, transform.rotation);
         Destroy(other.gameObject);
         Destroy(gameObject);
