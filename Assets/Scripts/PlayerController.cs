@@ -15,7 +15,14 @@ public class PlayerController : MonoBehaviour
     public GameObject shot;
     public Transform shotSpawn;
     public float fireRate;
+    
     private float nextFire;
+    private Quaternion calibrationQuaternion;
+    
+    void Start()
+    {
+        CalibrateAccelerometer();
+    }
 
     void Update()
     {
@@ -31,10 +38,9 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
-
-        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+        Vector3 accelerationRaw = Input.acceleration;
+        Vector3 acceleration = FixAccelleration(accelerationRaw);
+        Vector3 movement = new Vector3(acceleration.x, 0.0f, acceleration.y);
 
         Rigidbody rigibody = GetComponent<Rigidbody>();
         rigibody.velocity = movement * speed;
@@ -47,5 +53,20 @@ public class PlayerController : MonoBehaviour
         );
 
         rigibody.rotation = Quaternion.Euler(0.0f, 0.0f, rigibody.velocity.x * -tilt);
+    }
+
+    // User to calibrate Input.acceleration 
+    void CalibrateAccelerometer()
+    {
+        Vector3 accelerationSnapshot = Input.acceleration;
+        Quaternion rotateQuaternion = Quaternion.FromToRotation (new Vector3 (0.0f, 0.0f , -1.0f), accelerationSnapshot);
+        calibrationQuaternion = Quaternion.Inverse(rotateQuaternion);
+    }
+
+    // Get the 'calibrated' value from the input
+    Vector3 FixAccelleration(Vector3 acceleration)
+    {
+        Vector3 fixedAcceleration = calibrationQuaternion * acceleration;
+        return fixedAcceleration;
     }
 }
