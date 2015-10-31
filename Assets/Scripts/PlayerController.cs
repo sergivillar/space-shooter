@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     public Transform shotSpawn;
     public float fireRate;
     public SimpleTouchPad touchPad;
+    public SimpleTouchAreaButton areaButton;
     
     private float nextFire;
     private Quaternion calibrationQuaternion;
@@ -27,7 +28,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButton("Fire1") && Time.time > nextFire)
+        if (areaButton.CanFire() && Time.time > nextFire)
         {
             nextFire = Time.time + fireRate;
             // GameObject clone =

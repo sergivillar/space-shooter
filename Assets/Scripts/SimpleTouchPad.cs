@@ -27,6 +27,7 @@ public class SimpleTouchPad : MonoBehaviour, IPointerDownHandler, IDragHandler, 
         {
             origin = data.position;
             pointerID = data.pointerId;
+            Debug.Log(pointerID);
             touched = true;
         }
     }
