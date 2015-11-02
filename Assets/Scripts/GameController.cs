@@ -18,13 +18,11 @@ public class GameController : MonoBehaviour
     public GameObject restartButton;
     private int score;
     private bool gameOver;
-    private bool restart;
 
     void Start()
     {
         score = 0;
         gameOver = false;
-        restart = false;
         restartButton.SetActive(false);
         gameOverText.text = "";
         UpdateScore();
@@ -50,7 +48,6 @@ public class GameController : MonoBehaviour
             if (gameOver)
             {
                 restartButton.SetActive(true);
-                restart = true;
                 break;
             }
         }
